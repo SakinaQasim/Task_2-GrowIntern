@@ -3,7 +3,7 @@ $showForm = true;
 $successMessage = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include('submit_contact.php');
+    include('contact.php');
 }
 
 $servername = "localhost";
@@ -20,49 +20,42 @@ if (!$conn) {
 }
 
 if ($showForm && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Retrieve customer_id from the registration table based on the provided email
+    $name = $_POST['name'];
     $email = $_POST['email'];
+    $message = $_POST['message'];
 
-    $select_query = "SELECT id FROM registration WHERE email = '$email'";
-    $result = mysqli_query($conn, $select_query);
+    // Check if the email already exists in the contact table
+    $check_query = "SELECT * FROM contact WHERE email = '$email'";
+    $check_result = mysqli_query($conn, $check_query);
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        // Fetch the customer_id
-        $row = mysqli_fetch_assoc($result);
-        $cust_id = $row['id'];
-
-        // Now, insert into the contact table using the retrieved cust_id
-        $fname = $_POST['fname'];
-        $lname = $_POST['lname'];
-        $subject = $_POST['subject'];
-        $message = $_POST['message'];
-
-        $insert_query = "INSERT INTO contact (cust_id, fname, lname, email, subject, message) VALUES ('$cust_id', '$fname', '$lname', '$email', '$subject', '$message')";
+    if (mysqli_num_rows($check_result) > 0) {
+        // If email already exists, show error message
+        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> This email address has already been used to submit a contact form.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>';
+    } else {
+        // Insert new entry if email is not a duplicate
+        $insert_query = "INSERT INTO contact (name, email, message) VALUES ('$name', '$email', '$message')";
         $insert_result = mysqli_query($conn, $insert_query);
 
         if ($insert_result) {
             $showForm = false;
-            header("Location: contact.php");
-            exit;
-			
+            $successMessage = "Your query has been sent successfully.";
         } else {
             echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Error!</strong> Unable to submit the contact form, please check your input.
+                    <strong>Error!</strong> Unable to submit the contact form, please try again later.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>';
         }
-    } else {
-        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Error!</strong> Customer not found with the provided email.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>';
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -158,12 +151,13 @@ if ($showForm && $_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
                     <div class="col-lg-7">
-                        <form action="" class="">
-                            <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name">
-                            <input type="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Email">
-                            <textarea class="w-100 form-control border-0 mb-4" rows="5" cols="10" placeholder="Your Message"></textarea>
-                            <button class="w-100 btn form-control  py-3 bg-white text-danger " type="submit">Submit</button>
+                        <form action="" method="POST" class="">
+                            <input type="text" name="name" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name">
+                            <input type="email" name="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Email">
+                            <textarea name="message" class="w-100 form-control border-0 mb-4" rows="5" cols="10" placeholder="Your Message"></textarea>
+                            <button class="w-100 btn form-control py-3 bg-white text-danger" type="submit" name="submit">Submit</button>
                         </form>
+
                     </div>
                     <div class="col-lg-5">
                         <div class="d-flex p-4 rounded mb-4 bg-white">
