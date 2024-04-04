@@ -104,7 +104,7 @@ if (isset($_GET['id']))
                 <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code">
                 <button class="btn border-secondary rounded-pill px-4 py-3 text-warning" type="button">Apply Coupon</button>
             </div>
-            <div class="row g-4 justify-content-end">
+            <!-- <div class="row g-4 justify-content-end">
                 <div class="col-8"></div>
                 <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
                     <div class="bg-light rounded">
@@ -129,7 +129,7 @@ if (isset($_GET['id']))
                         <button class="btn border-secondary rounded-pill px-4 py-3 text-warning text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- Cart Page End -->
