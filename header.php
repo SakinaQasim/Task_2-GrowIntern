@@ -29,7 +29,6 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Actions</a>
                         <div class="dropdown-menu m-0 bg-secondary rounded-0">
                             <a href="cart.php" class="dropdown-item">Cart</a>
-                            <a href="chackout.php" class="dropdown-item">Chackout</a>
                         </div>
                     </div>
                     <a href="contact.php" class="nav-item nav-link">Contact</a>

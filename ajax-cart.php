@@ -55,14 +55,6 @@ if (isset($_POST['id'])) {
                                     </div>
                                 </div>
                             </td>
-                            <td>
-                                <p class="mb-0 mt-4">2.99 $</p>
-                            </td>
-                            <td>
-                                <button class="btn btn-md rounded-circle bg-light border mt-4">
-                                    <i class="fa fa-times text-danger"></i>
-                                </button>
-                            </td>
                         </tr>';
         }
 

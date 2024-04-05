@@ -92,9 +92,7 @@ if (isset($_GET['id']))
                             <th scope="col">Name</th>
                             <th scope="col">Price</th>
                             <th scope="col">Quantity</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Handle</th>
-                        </tr>
+                          </tr>
                     </thead>
                     <tbody id="product-display">
                     </tbody>
