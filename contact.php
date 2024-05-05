@@ -2,9 +2,7 @@
 $showForm = true;
 $successMessage = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include('contact.php');
-}
+
 
 $servername = "localhost";
 $username = "root";
@@ -20,33 +18,31 @@ if (!$conn) {
 }
 
 if ($showForm && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Retrieve data from the form
     $name = $_POST['name'];
     $email = $_POST['email'];
     $message = $_POST['message'];
 
-    // Check if the email already exists in the contact table
-    $check_query = "SELECT * FROM contact WHERE email = '$email'";
-    $check_result = mysqli_query($conn, $check_query);
+    // Insert into the contact table
+    $insert_query = "INSERT INTO contact (name, email, message) VALUES ('$name', '$email', '$message')";
+    $insert_result = mysqli_query($conn, $insert_query);
 
-    if (mysqli_num_rows($check_result) > 0) {
-        // If email already exists, show error message
-        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Error!</strong> This email address has already been used to submit a contact form.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>';
+    if ($insert_result) {
+        $showForm = false;
+        header("Location: index.php");
+        exit;
     } else {
-        // Insert new entry if email is not a duplicate
-        $insert_query = "INSERT INTO contact (name, email, message) VALUES ('$name', '$email', '$message')";
-        $insert_result = mysqli_query($conn, $insert_query);
-
-        if ($insert_result) {
-            $showForm = false;
-            $successMessage = "Your query has been sent successfully.";
+        // Check if the error is due to duplicate entry
+        if (mysqli_errno($conn) == 1062) {
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> Duplicate email found. Please provide a different email address.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>';
         } else {
             echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Error!</strong> Unable to submit the contact form, please try again later.
+                    <strong>Error!</strong> Unable to submit the contact form, please check your input.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -54,7 +50,7 @@ if ($showForm && $_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
-?>
+?>  
 
 
 <!DOCTYPE html>
