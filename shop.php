@@ -181,7 +181,7 @@
                                                 <i class="fa fa-star"></i>
                                             </div>
                                             <div class="d-flex mb-2">
-                                                <h5 class="fw-bold me-2">Rs.105.00</h5>
+                                                <h5 class="fw-bold me-2">Rs.85.00</h5>
                                                 <h5 class="text-danger text-decoration-line-through">Rs.99.0</h5>
                                             </div>
                                         </div>
@@ -219,7 +219,7 @@
                                                 <i class="fa fa-star"></i>
                                             </div>
                                             <div class="d-flex mb-2">
-                                                <h5 class="fw-bold me-2">Rs.85.00</h5>
+                                                <h5 class="fw-bold me-2">Rs.55.00</h5>
                                                 <h5 class="text-danger text-decoration-line-through">Rs.65.00</h5>
                                             </div>
                                         </div>
